@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <p>Ai app</p>
+    <p id="test">Ai app</p>
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
+    <script>
+      import { GoogleGenerativeAI } from "@google/generative-ai";
+      const API_KEY = ""
+      const genAI = new GoogleGenerativeAI(API_KEY);
+      async function run() {
+        // For text-only input, use the gemini-pro model
+        const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+        const prompt = "Write a story about a magic backpack."
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        test.textContent = text;
+        console.log(text);
+      }
+      run();
+    </script>
   </body>
 </html>
