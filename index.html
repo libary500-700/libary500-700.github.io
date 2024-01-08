@@ -2,7 +2,7 @@
 <html>
   <body>
     <p id="test">Ai gemini</p>
-    <input id="input">
+    <input id="userPrompt">
     <button id="button">></button>
     <script type="importmap">
       {
@@ -24,7 +24,7 @@
         return test;
       }
       function sendPrompt() {
-        user = input.value;
+        user = userPrompt.value;
         gemini = run(user);
         console.log("Prompt sent")
         test.textContent = gemini;
