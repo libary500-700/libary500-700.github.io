@@ -2,6 +2,7 @@
 <html>
   <body>
     <p id="test">Ai app</p>
+    <button id="button">GO!</button>
     <script type="importmap">
       {
         "imports": {
@@ -23,7 +24,7 @@
         test.textContent = text;
         console.log(text);
       }
-      run();
+      button.onclick = run;
     </script>
   </body>
 </html>
