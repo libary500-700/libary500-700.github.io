@@ -3,8 +3,6 @@
   <body>
     <input id="input">
     <p id="test">Ai gemini</p>
-    
-    <button id="button">GO!</button>
     <script type="importmap">
       {
         "imports": {
@@ -12,25 +10,19 @@
         }
       }
     </script>
-    <script>
+    <script type="module">
       import { GoogleGenerativeAI } from "@google/generative-ai";
-      const API_KEY = "AIzaSyAEVa5V8ZCqEiEAARwKbhv6kbFzxZ3NGwg"
+      const API_KEY = "...";
       const genAI = new GoogleGenerativeAI(API_KEY);
-      function run(prompt) {
-        // For text-only input, use the gemini-pro model
+      async function run() {
         const model = genAI.getGenerativeModel({ model: "gemini-pro"});
-        const result =  model.generateContent(prompt);
-        const response =  result.response;
+        const prompt = "Write a story about a magic backpack."
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
         const text = response.text();
         console.log(text);
-        return text;
       }
-      function coolThing() {
-        user = input.value;
-        gemini = run(user);
-        test.textContent = gemini;
-      }
-      button.onclick = coolThing;
+      run();
     </script>
   </body>
 </html>
