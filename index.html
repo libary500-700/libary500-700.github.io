@@ -17,7 +17,6 @@
       const genAI = new GoogleGenerativeAI(API_KEY);
       function run(prompt) {
         const model = genAI.getGenerativeModel({ model: "gemini-pro"});
-        const prompt = "Write a story about a magic backpack."
         const result = model.generateContent(prompt);
         const response = result.response;
         const text = response.text();
