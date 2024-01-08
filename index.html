@@ -26,8 +26,8 @@
     </script>
     <script>
       function sendPrompt() {
-        user = userPrompt.value;
-        gemini = run(user);
+        let user = userPrompt.value;
+        let gemini = run(user);
         console.log("Prompt sent")
         test.textContent = gemini;
       }
