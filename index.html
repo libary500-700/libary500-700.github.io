@@ -3,7 +3,7 @@
   <body>
     <p id="test">Hello, I'm Gemini</p>
     <input id="userPrompt">
-    <button id="button" onclick="run()">></button>
+    <button id="button" onclick="runRun()">></button>
     <script type="importmap">
       {
         "imports": {
@@ -23,6 +23,9 @@
         let text = response.text();
         console.log(text);
         document.getElementById("myText").value = text;
+      }
+      function runRun() {
+        run()
       }
     </script>
   </body>
