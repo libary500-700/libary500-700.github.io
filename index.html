@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <body>
+    <input id="input">
     <p id="test">Ai app</p>
+    
     <button id="button">GO!</button>
     <script type="importmap">
       {
@@ -14,17 +16,21 @@
       import { GoogleGenerativeAI } from "@google/generative-ai";
       const API_KEY = "AIzaSyAEVa5V8ZCqEiEAARwKbhv6kbFzxZ3NGwg"
       const genAI = new GoogleGenerativeAI(API_KEY);
-      async function run() {
+      function run(prompt) {
         // For text-only input, use the gemini-pro model
         const model = genAI.getGenerativeModel({ model: "gemini-pro"});
-        const prompt = "Write a story about a magic backpack."
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
+        const result =  model.generateContent(prompt);
+        const response =  result.response;
         const text = response.text();
-        test.textContent = text;
         console.log(text);
+        return text;
       }
-      button.onclick = run;
+      function coolThing() {
+        user = input.value;
+        gemini = run(user);
+        test.textContent = gemini;
+      }
+      button.onclick = coolThing;
     </script>
   </body>
 </html>
