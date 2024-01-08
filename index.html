@@ -16,7 +16,6 @@
       const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU"
       const genAI = new GoogleGenerativeAI(API_KEY);
       async function run() {
-        // For text-only input, use the gemini-pro model
         const model = genAI.getGenerativeModel({ model: "gemini-pro"});
         const prompt = "Write a story about a magic backpack."
         const result = await model.generateContent(prompt);
