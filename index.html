@@ -24,8 +24,8 @@
         return test;
       }
       function sendPrompt() {
-        user = userPrompt.value;
-        gemini = run(user);
+        const user = userPrompt.value;
+        const gemini = run(user);
         console.log("Prompt sent")
         test.textContent = gemini;
       }
