@@ -3,7 +3,7 @@
   <body>
     <p id="test">Hello, </p>
     <input id="userPrompt">
-    <button id="button">></button>
+    <button id="button" onclick="run()">></button>
     <script type="importmap">
       {
         "imports": {
@@ -15,21 +15,14 @@
       import { GoogleGenerativeAI } from "@google/generative-ai";
       const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
       const genAI = new GoogleGenerativeAI(API_KEY);
-      function run(prompt) {
+      function run() {
+        const prompt = "Tell me about yourself"
         const model = genAI.getGenerativeModel({ model: "gemini-pro"});
-        const result = model.generateContent(prompt);
-        const response = result.response;
-        const text = response.text();
+        let result = model.generateContent(prompt);
+        let response = result.response;
+        let text = response.text();
         console.log(text);
-        return test;
-      function sendPrompt() {
-        let user = userPrompt.value;
-        let gemini = run(user);
-        console.log("Prompt sent")
-        test.textContent = gemini;
-      }
-      button.onclick = sendPrompt;
-      }
+        document.getElementById("myText").value = text;
     </script>
   </body>
 </html>
