@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <body>
+    <input id="key" placeholder="API key">
     <p id="test">Hello, I'm Gemini.</p>
     <input id="userPrompt">
     <button id="button">></button>
@@ -13,7 +14,32 @@
     </script>
     <script type="module">
       import { GoogleGenerativeAI } from "@google/generative-ai";
-      const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU"
+      import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+      import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+      const safetySettings = [
+            {
+                category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+            }
+        ];
+      const API_KEY = "";
+      function key() {
+        if (key.value == "") {
+          API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
+        }
+      }
       const genAI = new GoogleGenerativeAI(API_KEY);
       async function run() {
         const model = genAI.getGenerativeModel({ model: "gemini-pro"});
