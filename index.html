@@ -34,12 +34,7 @@
                 threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
             }
         ];
-      const API_KEY = "";
-      function key() {
-        if (key.value == "") {
-          API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
-        }
-      }
+      const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
       const genAI = new GoogleGenerativeAI(API_KEY);
       async function run() {
         const model = genAI.getGenerativeModel({ model: "gemini-pro"});
