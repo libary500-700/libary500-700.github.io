@@ -36,16 +36,16 @@
         ];
       const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
       const genAI = new GoogleGenerativeAI(API_KEY);
-      async function run() {
+      function run() {
         const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings});
-        const prompt = "Describe your features"
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
+        const prompt = document.getElementById('userPrompt').value;
+        const result = model.generateContent(prompt);
+        const response = result.response;
         const text = response.text();
         console.log(text);
         document.getElementById('test').textContent = text;
       }
-      run();
+      document.getElementById('button').onclick = run;
     </script>
   </body>
 </html>
