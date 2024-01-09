@@ -13,6 +13,7 @@
       }
     </script>
     <script type="module">
+      document.getElementById("button").addEventListener("click", run);
       import { GoogleGenerativeAI } from "@google/generative-ai";
       import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
       import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
@@ -45,7 +46,6 @@
         console.log(text);
         document.getElementById('test').textContent = text;
       }
-      document.getElementById('button').onclick = run;
     </script>
   </body>
 </html>
