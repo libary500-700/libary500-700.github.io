@@ -14,9 +14,9 @@
     </script>
     <script type="module">
       import { GoogleGenerativeAI } from "@google/generative-ai";
-
+      const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU"
       // Access your API key (see "Set up your API key" above)
-      const genAI = new GoogleGenerativeAI(AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU);
+      const genAI = new GoogleGenerativeAI(API_KEY);
 
       async function run() {
       // For text-only input, use the gemini-pro model
