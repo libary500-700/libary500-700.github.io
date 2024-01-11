@@ -14,42 +14,38 @@
     </script>
     <script type="module">
       import { GoogleGenerativeAI } from "@google/generative-ai";
-      import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
-      import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
-      const safetySettings = [
-            {
-                category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-            },
-            {
-                category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-            },
-            {
-                category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-            },
-            {
-                category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-                threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-            }
-        ];
-      const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
+
+      // Access your API key (see "Set up your API key" above)
       const genAI = new GoogleGenerativeAI(API_KEY);
-      function run() {
-        const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings});
-        const prompt = document.getElementById('userPrompt').value;
-        const result = model.generateContent(prompt);
-        const response = result.response;
-        const text = response.text();
-        console.log(text);
-        document.getElementById('test').textContent = text;
-      }
-      document.addEventListener('click', function(event) {
-         if (event.target.id === 'button') {
-           run();
-         }
+
+      async function run() {
+      // For text-only input, use the gemini-pro model
+      const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+
+      const chat = model.startChat({
+        history: [
+          {
+            role: "user",
+            parts: "Hello, I have 2 dogs in my house.",
+          },
+          {
+            role: "model",
+            parts: "Great to meet you. What would you like to know?",
+          },
+        ],
+        generationConfig: {
+          maxOutputTokens: 100,
+        },
       });
+
+      const msg = "How many paws are in my house?";
+
+      const result = await chat.sendMessage(msg);
+      const response = await result.response;
+      const text = response.text();
+      console.log(text);
+    }
+    run();
     </script>
   </body>
 </html>
