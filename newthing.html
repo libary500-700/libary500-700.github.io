@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.css">
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg"
+        type="image/x-icon">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.css">
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,200;0,400;0,800;1,200;1,400;1,800&display=swap');
+
     @import url('https://fonts.googleapis.com/css2?family=Product+Sans&family=Google+Sans+Display:ital@0;1&family=Google+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Google+Sans+Text:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Material+Symbols+Outlined&family=Space+Mono&display=swap');
+
     @font-face {
         font-family: 'Material Symbols Outlined';
         font-style: normal;
         font-weight: 400;
         src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v154/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOej.woff2) format('woff2');
     }
+
     .material-symbols-outlined {
         font-family: 'Material Symbols Outlined';
         font-weight: normal;
@@ -790,7 +799,7 @@
         //load api key from local storage into input field
         const KEY = document.querySelector("#apiKeyInput");
         const maxTokens = document.querySelector("#maxTokens");
-        API_KEY.value = localStorage.getItem("API_KEY");
+        KEY.value = localStorage.getItem("API_KEY");
         maxTokens.value = localStorage.getItem("maxTokens");
         if (maxTokens.value == "") maxTokens.value = 1000;
 
@@ -1056,7 +1065,7 @@
                 return;
             }
             const maxTokens = document.querySelector("#maxTokens");
-            const API_KEY = document.querySelector("#apiKeyInput");
+            const KEY = document.querySelector("#apiKeyInput");
             const selectedPersonalityTitle = document.querySelector("input[name='personality']:checked + div .personality-title").innerText;
             const selectedPersonalityDescription = document.querySelector("input[name='personality']:checked + div .personality-description").innerText;
             const selectedPersonalityPrompt = document.querySelector("input[name='personality']:checked + div .personality-prompt").innerText;
@@ -1079,20 +1088,20 @@
             //
             const toneExamples = [];
 
+
             if (KEY.value == "") {
-                API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
+                const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
                 return;
             }
             else {
-                API_KEY = KEY.value;
-                return;
+                const API_KEY = KEY.value;
             }
 
             const generationConfig = {
                 maxOutputTokens: maxTokens.value,
                 temperature: 0.9
             };
-            const genAI = new GoogleGenerativeAI(API_KEY.value);
+            const genAI = new GoogleGenerativeAI(API_KEY);
             const model = genAI.getGenerativeModel({ model: "gemini-pro" });
             const chat = model.startChat({
                 generationConfig, safetySettings,
@@ -1147,7 +1156,7 @@
             }
 
             //save api key to local storage
-            localStorage.setItem("API_KEY", KEY.value);
+            localStorage.setItem("API_KEY", API_KEY.value);
             localStorage.setItem("maxTokens", maxTokens.value);
 
         }
