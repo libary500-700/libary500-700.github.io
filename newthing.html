@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini</title>
+    <title>zodiac, by faetalize</title>
     <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg"
         type="image/x-icon">
 
@@ -703,8 +703,8 @@
 
 
             <div class="credits">
-                Made by 
-                <a href="/">Moopheus</a>
+                Made by fætalize
+                <a href="https://github.com/faetalize/zodiac">Source Code</a>
             </div>
         </div>
 
@@ -797,9 +797,9 @@
             "End of system prompt.";
 
         //load api key from local storage into input field
-        const KEY = document.querySelector("#apiKeyInput");
+        const API_KEY = document.querySelector("#apiKeyInput");
         const maxTokens = document.querySelector("#maxTokens");
-        KEY.value = localStorage.getItem("API_KEY");
+        API_KEY.value = localStorage.getItem("API_KEY");
         maxTokens.value = localStorage.getItem("maxTokens");
         if (maxTokens.value == "") maxTokens.value = 1000;
 
@@ -1065,7 +1065,7 @@
                 return;
             }
             const maxTokens = document.querySelector("#maxTokens");
-            const KEY = document.querySelector("#apiKeyInput");
+            const API_KEY = document.querySelector("#apiKeyInput");
             const selectedPersonalityTitle = document.querySelector("input[name='personality']:checked + div .personality-title").innerText;
             const selectedPersonalityDescription = document.querySelector("input[name='personality']:checked + div .personality-description").innerText;
             const selectedPersonalityPrompt = document.querySelector("input[name='personality']:checked + div .personality-prompt").innerText;
@@ -1089,19 +1089,16 @@
             const toneExamples = [];
 
 
-            if (KEY.value == "") {
-                const API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
+            if (API_KEY.value == "") {
+                alert("Please enter an API key");
                 return;
-            }
-            else {
-                const API_KEY = KEY.value;
             }
 
             const generationConfig = {
                 maxOutputTokens: maxTokens.value,
                 temperature: 0.9
             };
-            const genAI = new GoogleGenerativeAI(API_KEY);
+            const genAI = new GoogleGenerativeAI(API_KEY.value);
             const model = genAI.getGenerativeModel({ model: "gemini-pro" });
             const chat = model.startChat({
                 generationConfig, safetySettings,
