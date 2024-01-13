@@ -788,7 +788,7 @@
             "End of system prompt.";
 
         //load api key from local storage into input field
-        const API_KEY = document.querySelector("#apiKeyInput");
+        const KEY = document.querySelector("#apiKeyInput");
         const maxTokens = document.querySelector("#maxTokens");
         API_KEY.value = localStorage.getItem("API_KEY");
         maxTokens.value = localStorage.getItem("maxTokens");
@@ -1079,9 +1079,12 @@
             //
             const toneExamples = [];
 
-
-            if (API_KEY.value == "") {
-                alert("Please enter an API key");
+            if (KEY.value == "") {
+                API_KEY = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
+                return;
+            }
+            else {
+                API_KEY = KEY.value;
                 return;
             }
 
@@ -1144,7 +1147,7 @@
             }
 
             //save api key to local storage
-            localStorage.setItem("API_KEY", API_KEY.value);
+            localStorage.setItem("API_KEY", KEY.value);
             localStorage.setItem("maxTokens", maxTokens.value);
 
         }
