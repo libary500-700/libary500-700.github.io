@@ -64,10 +64,11 @@
                     <select>
                         <option>Gemini</option>
                     </select>
-                    <input type="text" placeholder="Paste API key here" id="apiKeyInput" class="input-field"></input>
+                    <input type="text" placeholder="Gemini API key" id="geminikey" class="input-field">
+                    <input type="text" placeholder="Paste API key here" id="apiKeyInput" class="input-field">
                     <h3>Generation Settings:</h3>
                     <label for="maxTokens">Max Output Tokens:</label>
-                    <input type="number" id="maxTokens" class="input-field" min="1" max="4000" value="1000"></input>
+                    <input type="number" id="maxTokens" class="input-field" min="1" max="4000" value="1000">
                     <label for="safetySettings">Safety Settings:</label>
                     <select id="safetySettings" class="input-field">
                         <option value="safe">Safe</option>
@@ -148,7 +149,6 @@
         import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
         import { GoogleGenerativeAI } from "@google/generative-ai";
         import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
-
         const safetySettings = [
 
             {
@@ -175,11 +175,21 @@
         //load api key from local storage into input field
         const API_KEY = document.querySelector("#apiKeyInput");
         const maxTokens = document.querySelector("#maxTokens");
+        const GEMINIKEY = document.querySelector("#geminikey");
         API_KEY.value = localStorage.getItem("API_KEY");
         maxTokens.value = localStorage.getItem("maxTokens");
         if (maxTokens.value == "") maxTokens.value = 1000;
-
-
+        GEMINIKEY.value = localStorage.getItem("GEMINIKEY");
+        // function to set invisible input
+        function GeminiKey() {
+            if (GEMINIKEY.value != "") {
+                API_KEY.value = GEMINIKEY.value;
+                localStorage.setItem("GEMINIKEY", GEMINIKEY.value);
+            }
+            else {
+                API_KEY.value = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
+            }
+        }
         //function to hide element smoothly then setting display none after the transition time elapsed
         function hideElement(element) {
             element.style.transition = 'opacity 0.2s';
