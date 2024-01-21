@@ -438,7 +438,7 @@
             }
             const maxTokens = document.querySelector("#maxTokens");
             const API_KEY = document.querySelector("#apiKeyInput");
-            const UserName = document.querySelector("#username");
+            const UserName = document.querySelector("#username").innerText;
             const selectedPersonalityTitle = document.querySelector("input[name='personality']:checked + div .personality-title").innerText;
             const selectedPersonalityDescription = document.querySelector("input[name='personality']:checked + div .personality-description").innerText;
             const selectedPersonalityPrompt = document.querySelector("input[name='personality']:checked + div .personality-prompt").innerText;
@@ -528,6 +528,7 @@
             //save api key to local storage
             localStorage.setItem("API_KEY", API_KEY.value);
             localStorage.setItem("maxTokens", maxTokens.value);
+            localStorage.setItem("USERNAME", UserName.value);
 
         }
 
