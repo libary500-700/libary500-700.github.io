@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Image Generation AI</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <title>Image Generation AI from Prompt</title>
+    <script src="https://unpkg.com/latent-diffusion@0.1.3/dist/latent-diffusion.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -19,10 +19,17 @@
         max-width: 100%;
         max-height: 100%;
       }
-      #controls {
+      #prompt-container {
         margin-top: 20px;
       }
-      button {
+      #prompt {
+        width: 100%;
+        padding: 5px 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+      }
+      #generate-button {
+        margin-top: 10px;
         padding: 5px 10px;
         border: 1px solid black;
         border-radius: 5px;
@@ -32,50 +39,35 @@
     </style>
   </head>
   <body>
-    <h1>Image Generation AI</h1>
+    <h1>Image Generation AI from Prompt</h1>
     <div id="image-container">
       <img id="image" src="" alt="Generated Image">
+    </div>
+    <div id="prompt-container">
+      <label for="prompt">Enter a prompt:</label>
+      <textarea id="prompt" rows="4"></textarea>
     </div>
     <div id="controls">
       <button id="generate-button">Generate Image</button>
     </div>
 
     <script>
-      // Load the TensorFlow.js library
-      const tf = tf.data.array([1, 2, 3]);
-
-      // Define the image generation model
-      const model = tf.sequential();
-      model.add(tf.layers.dense({ units: 784, activation: 'relu', inputShape: [100] }));
-      model.add(tf.layers.dense({ units: 784, activation: 'sigmoid' }));
-
-      // Compile the model
-      model.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
-
-      // Train the model
-      model.fit(tf.randomNormal([1000, 100]), tf.randomNormal([1000, 784]), { epochs: 10 });
-
-      // Generate an image
-      const generateImage = async () => {
-        const input = tf.randomNormal([1, 100]);
-        const output = await model.predict(input);
-        const imageData = output.dataSync();
-
-        // Reshape the image data into a 28x28 pixel array
-        const imageArray = Array.from(imageData);
-        const image2D = [];
-        for (let i = 0; i < 28; i++) {
-          image2D.push(imageArray.slice(i * 28, i * 28 + 28));
-        }
-
-        // Create an image element and display the generated image
-        const image = document.getElementById('image');
-        image.src = tf.browser.toPixels(image2D);
-      };
+      // Load the Latent Diffusion model
+      const model = await LatentDiffusion.fromURL("https://unpkg.com/latent-diffusion@0.1.3/dist/model.ckpt");
 
       // Add event listener for the generate button
       const generateButton = document.getElementById('generate-button');
-      generateButton.addEventListener('click', generateImage);
+      generateButton.addEventListener('click', async () => {
+        // Get the prompt from the user
+        const prompt = document.getElementById('prompt').value;
+
+        // Generate an image from the prompt
+        const image = await model.generate(prompt, { numIterations: 50 });
+
+        // Display the generated image
+        const imageElement = document.getElementById('image');
+        imageElement.src = URL.createObjectURL(image);
+      });
     </script>
   </body>
 </html>
