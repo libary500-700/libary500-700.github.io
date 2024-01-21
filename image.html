@@ -1,55 +1,81 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Image Generation AI Website</title>
+    <title>Image Generation AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 500px;
+        height: 500px;
+        border: 1px dashed black;
+      }
+      #image {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      #controls {
+        margin-top: 20px;
+      }
+      button {
+        padding: 5px 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: #eee;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <h1>Image Generation AI</h1>
-    <form id="form">
-      <label for="prompt">Prompt:</label>
-      <input type="text" id="prompt">
-      <input type="submit" value="Generate">
-    </form>
-
-    <div id="result"></div>
+    <div id="image-container">
+      <img id="image" src="" alt="Generated Image">
+    </div>
+    <div id="controls">
+      <button id="generate-button">Generate Image</button>
+    </div>
 
     <script>
-      const form = document.getElementById('form');
+      // Load the TensorFlow.js library
+      const tf = tf.data.array([1, 2, 3]);
 
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
+      // Define the image generation model
+      const model = tf.sequential();
+      model.add(tf.layers.dense({ units: 784, activation: 'relu', inputShape: [100] }));
+      model.add(tf.layers.dense({ units: 784, activation: 'sigmoid' }));
 
-        const prompt = document.getElementById('prompt').value;
+      // Compile the model
+      model.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
 
-        const requestBody = {
-          prompt: {
-            text: prompt,
-          },
-        };
+      // Train the model
+      model.fit(tf.randomNormal([1000, 100]), tf.randomNormal([1000, 784]), { epochs: 10 });
 
-        fetch(
-          'https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateImage?key={{API_KEY}}',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody),
-          }
-        )
-        .then((res) => res.json())
-        .then((data) => {
-          const result = data.candidates[0].output;
-          const imageUrl = result.image_uri;
+      // Generate an image
+      const generateImage = async () => {
+        const input = tf.randomNormal([1, 100]);
+        const output = await model.predict(input);
+        const imageData = output.dataSync();
 
-          const resultElement = document.getElementById('result');
-          resultElement.innerHTML = `<img src="${imageUrl}" alt="Generated image">`;
-        })
-        .catch((error) => {
-          console.error('Error querying API: ', error);
-          alert('Sorry, there was an issue generating your image. Please try again.');
-        });
-      });
+        // Reshape the image data into a 28x28 pixel array
+        const imageArray = Array.from(imageData);
+        const image2D = [];
+        for (let i = 0; i < 28; i++) {
+          image2D.push(imageArray.slice(i * 28, i * 28 + 28));
+        }
+
+        // Create an image element and display the generated image
+        const image = document.getElementById('image');
+        image.src = tf.browser.toPixels(image2D);
+      };
+
+      // Add event listener for the generate button
+      const generateButton = document.getElementById('generate-button');
+      generateButton.addEventListener('click', generateImage);
     </script>
   </body>
 </html>
