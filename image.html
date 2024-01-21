@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Generation Website</title>
+  <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+  <script src="https://unpkg.com/@tensorflow-models/image-generation"></script>
+  <style>
+    #image-container {
+      width: 512px;
+      height: 512px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Generation Website</h1>
+  <button onclick="generateImage()">Generate Image</button>
+  <div id="image-container"></div>
+
+  <script>
+    async function generateImage() {
+      // Create a new image generation model
+      const model = await imageGeneration.create(
+        'https://storage.googleapis.com/tfjs-models/savedmodels/image_generation/magenta/arbitrary-image-style-transfer/model.json'
+      );
+
+      // Load an image to use as the content image
+      const contentImage = document.createElement('img');
+      contentImage.src = 'path/to/content_image.jpg';
+      await contentImage.decode();
+
+      // Load an image to use as the style image
+      const styleImage = document.createElement('img');
+      styleImage.src = 'path/to/style_image.jpg';
+      await styleImage.decode();
+
+      // Generate the stylized image
+      const stylizedImage = await model.stylize([contentImage], [styleImage]);
+
+      // Display the stylized image
+      const imageContainer = document.getElementById('image-container');
+      imageContainer.appendChild(stylizedImage[0]);
+    }
+  </script>
+</body>
+</html>
