@@ -61,10 +61,7 @@
                 </div>
 
                 <div class="sidebar-section">
-                    <select>
-                        <option>Gemini</option>
-                    </select>
-                    <input type="text" placeholder="Gemini API key" id="geminikey" class="input-field">
+                    <input type="text" placeholder="Username" id="username" class="input-field">
                     <input type="text" placeholder="Paste API key here" id="apiKeyInput" class="input-field">
                     <h3>Generation Settings:</h3>
                     <label for="maxTokens">Max Output Tokens:</label>
@@ -73,7 +70,6 @@
                     <select id="safetySettings" class="input-field">
                         <option value="safe">Safe</option>
                         <option value="moderate">Moderate</option>
-                        <option value="risky">Risky</option>
                     </select>
                 </div>
             </div>
@@ -175,21 +171,11 @@
         //load api key from local storage into input field
         const API_KEY = document.querySelector("#apiKeyInput");
         const maxTokens = document.querySelector("#maxTokens");
-        const GEMINIKEY = document.querySelector("#geminikey");
+        const USERNAME = document.querySelector("#username");
         API_KEY.value = localStorage.getItem("API_KEY");
         maxTokens.value = localStorage.getItem("maxTokens");
+        USERNAME.value = localStorage.getItem("USERNAME");
         if (maxTokens.value == "") maxTokens.value = 1000;
-        GEMINIKEY.value = localStorage.getItem("GEMINIKEY");
-        // function to set invisible input
-        function GeminiKey() {
-            if (GEMINIKEY.value != "") {
-                API_KEY.value = GEMINIKEY.value;
-                localStorage.setItem("GEMINIKEY", GEMINIKEY.value);
-            }
-            else {
-                API_KEY.value = "AIzaSyCg7-xCdhyU2AheHA72kjAyOBU6RN48RmU";
-            }
-        }
         //function to hide element smoothly then setting display none after the transition time elapsed
         function hideElement(element) {
             element.style.transition = 'opacity 0.2s';
@@ -452,6 +438,7 @@
             }
             const maxTokens = document.querySelector("#maxTokens");
             const API_KEY = document.querySelector("#apiKeyInput");
+            const UserName = document.querySelector("#username");
             const selectedPersonalityTitle = document.querySelector("input[name='personality']:checked + div .personality-title").innerText;
             const selectedPersonalityDescription = document.querySelector("input[name='personality']:checked + div .personality-description").innerText;
             const selectedPersonalityPrompt = document.querySelector("input[name='personality']:checked + div .personality-prompt").innerText;
@@ -495,7 +482,7 @@
                     },
                     {
                         role: "model",
-                        parts: [{ text: `Okay. From now on, I shall play the role of ${selectedPersonalityTitle}. Your prompt and described personality will be used for the rest of the conversation.` }]
+                        parts: [{ text: `Okay, ${UserName}. From now on, I shall play the role of ${selectedPersonalityTitle} and remember your name is ${UserName}. Your prompt and described personality will be used for the rest of the conversation and I will rember your name is ${UserName}.` }]
                     },
                     ...toneExamples,
                     ...chatHistory
