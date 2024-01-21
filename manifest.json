@@ -1,0 +1,17 @@
+{
+    "lang": "en-us",
+    "name": "Google Gemini",
+    "short_name": "Gemini",
+    "description": "A unoffical app built upon Google's Gemini and set out to help you with your day. This app allows you to use your own API KEY, inproving preformance. The AI has several personalitities and can pay many roles.",
+    "start_url": "/",
+    "background_color": "#2f3d58",
+    "theme_color": "#2f3d58",
+    "orientation": "any",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "512x512"
+        }
+    ]
+}
