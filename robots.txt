@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://libary500-700.githib.io/sitemap.xml
